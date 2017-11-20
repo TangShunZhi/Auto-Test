@@ -1,5 +1,5 @@
 #!/bin/bash
-pcpwd=123456
+pcpwd=123
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -7,7 +7,7 @@ VENDOR=$1
 PRODUCT=$2
 WAITTIME=$3
 
-for DIR in $(find /sys/bus/usb/devices/ -maxdepth 1 -type l); do
+for DIR in $(find /sys/bus/usb/devices/ -maxdepth 3 -type l); do
   if [[ -f $DIR/idVendor && -f $DIR/idProduct &&
         $(cat $DIR/idVendor) == $VENDOR && $(cat $DIR/idProduct) == $PRODUCT ]]; then
     echo "DIR : $DIR"
@@ -19,7 +19,7 @@ done
 adb devices
 sleep $WAITTIME
 
-for DIR in $(find /sys/bus/usb/devices/ -maxdepth 1 -type l); do
+for DIR in $(find /sys/bus/usb/devices/ -maxdepth 3 -type l); do
   if [[ -f $DIR/idVendor && -f $DIR/idProduct &&
         $(cat $DIR/idVendor) == $VENDOR && $(cat $DIR/idProduct) == $PRODUCT ]]; then
     echo "DIR : $DIR"
